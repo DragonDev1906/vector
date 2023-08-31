@@ -1,0 +1,28 @@
+[package]
+name = "vector-fuzz"
+version = "0.0.0"
+publish = false
+edition = "2021"
+
+[package.metadata]
+cargo-fuzz = true
+
+[dependencies]
+libfuzzer-sys = { version = "0.4", features = ["arbitrary-derive"] }
+arbitrary = { version = "1", features = ["derive"] }
+
+[dependencies.vector]
+path = ".."
+
+# Prevent this from interfering with workspaces
+[workspace]
+members = ["."]
+
+[profile.release]
+debug = 1
+
+[[bin]]
+name = "compare_to_stdvec"
+path = "fuzz_targets/compare_to_stdvec.rs"
+test = false
+doc = false
